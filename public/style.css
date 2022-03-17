@@ -124,6 +124,46 @@
     
 }
 
+
+.select:hover .options-list {
+    opacity: 1;
+    visibility: visible;
+}
+
+.select:hover .option span::after {
+    content: "▲";
+    float: center;
+}
+
+.see-more{
+    border: 1px solid green;
+    border-radius: 4%;
+    width: fit-content;
+}
+
+.see-more span::after {
+    content: "▼";
+    float: center;
+}
+
+.options-list {
+    text-align: center;
+    width: 5rem;
+    position: absolute;
+    background-color: white;
+    border-radius: 4px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 2s linear;
+}
+
+
+
+.options-item:hover {
+    background-color: lightgray;
+}
+
+
 .navigator{
     background-color: lightgrey;
     width: 100%;

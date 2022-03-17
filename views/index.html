@@ -61,7 +61,7 @@
 
 
 
-        <form id="check" action="/check" method="post">
+        <form id="check" action="/todo/checkEdit" method="post">
             <div class="todos">
                 {% set folder = [] %}
                 {% for todo in todos %}    
@@ -81,7 +81,11 @@
                                 onchange="DidIt(this);document.getElementById('check').submit()" 
                                 autocomplete="off" checked                        
                                 <span name="todo">{{todo.content}}</span>
+
+                            
+
                             </div>
+
         
                         {% else %}
                         
@@ -90,9 +94,22 @@
                                 onchange="DidIt(this);document.getElementById('check').submit()" 
                                 autocomplete="off" 
                                 <span name="todo">{{todo.content}}</span>
+
+
                             </div>
         
                         {% endif %}
+
+
+                        <div class="select">
+                            <div class="see-more">
+                                <span>...</span>
+                            </div>
+                            <div class="options-list">
+                                <button class="options-item" type="submit">수정</button>
+                                <button class="options-item" type="submit" formaction="/todo/delete" name="deleteTarget" value="{{todo.content}}">삭제</button>
+                            </div>
+                        </div>                        
         
                     </div>
                 {% endfor %}    
