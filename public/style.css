@@ -1,0 +1,140 @@
+.main-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.left-container{
+    display: flex;
+    flex: 0 0 25%;
+    background-color: green;
+    height: 100px;
+    justify-content: left;
+    border-right: 1px solid grey;
+}
+
+.right-container{
+    display: flex;
+    flex: 0 0 50%;
+    flex-flow: column nowrap;
+    margin-left: 10%;
+    margin-right: 10%;
+
+
+}
+
+.todo-list{
+    background: white;
+}
+
+.form-group-1 input{
+    width: 100%;
+    height: 60px;
+    border: none;
+    font-size: 1.5rem;
+    font-weight:300;
+
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+}
+
+.todo-list input:focus{
+    outline: 1px solid green;
+}
+
+
+.form-group-2{
+    padding-top: 0.5rem;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+/* .folder-select-section{
+    display: inline-block;
+} */
+
+.form-group-2 .btn{
+    border: 1px solid green;
+    border-radius: 4px;
+    color: white;
+    background-color:green;
+    padding: 0.3rem 0.5rem;
+    cursor:pointer;   
+}
+
+.folder-list{
+    position: relative;
+    font-family: Arial;
+}
+
+.folder-selected{
+    background-color: dodgerblue;
+}
+
+.folder-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+}
+
+
+.folder-list input{
+    border: none;
+    background-color: #f9f9f9;
+    display: block;
+    width: auto;
+    border-top: 1px solid lightgray;
+    padding: 12px 16px;
+
+}
+
+
+
+.add-folder-btn{
+    border: none;
+    background-color: #f9f9f9;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+
+
+
+.todo-folder p{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    border: 1px solid green;
+    border-radius: 4px;
+    background-color: green;
+    width: fit-content;
+    padding: 2px;
+
+}
+
+.todo-content p{
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+    
+}
+
+.navigator{
+    background-color: lightgrey;
+    width: 100%;
+    text-align: right;
+    height: 30px;
+}
+.navigator .btn{
+    border: none;
+    
+}
+
+.navigator .btn:hover{
+    cursor: pointer;
+}

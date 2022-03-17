@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>log in</title>
+</head>
+<body>
+    <h1>로그인 </h1>
+    <form id="local-login-form" action="/auth/login" method="post">
+        <label for="email">이메일</label>
+        <input id="email" type="email" name="email" required autofocus>
+        
+        <label for="password">비밀번호</label>
+        <input id="password" type="password" name="password" required>
+
+        <button id="local-login" type="submit" class="btn">로그인</button>
+    </form>
+
+    <form id="kakao-join-form" action="/auth/kakao">
+        <button id="kakao-login" type="submit" class="btn">카카오 로그인</button>        
+    </form>
+
+    <form id="twitter-join-form" action="/auth/naver">
+        <button id="naver-login" type="submit" class="btn">네이버 로그인</button>        
+    </form>
+
+    <a id="join" href="join" class="btn">회원가입</a>
+
+
+    </body>
+</html>

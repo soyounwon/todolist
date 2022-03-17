@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get id Done</title>
+    <link rel="stylesheet" href="/style.css"
+</head>
+<body>
+
+<div class="navigator">
+    <a class="btn" id="login" href="login">로그인</a>
+    <a class="btn" id="join" href="join">회원가입</a>
+    <a class="btn" id="logout" href="/auth/logout">로그아웃</a>
+    <a class="btn" id="profile" href="profile">내 프로필</a>
+
+</div>
+
+<div class="main-container">
+    <div class="left-container">
+        <h>ㅇㄴㅇㄴ</h>
+
+    </div>
+
+
+    <div class="right-container">
+
+        <div class="todo-list">
+            <form action="/todo" method="post">
+                <div class="form-group-1">
+                    <input type="text" id="input" name="content" placeholder="할 일을 입력해보세요">
+                </div>
+                
+                <div class="form-group-2">
+                    <div class="folder-select-section">
+                        <div class="folder-list">
+                            
+                            <select name="folder" id="folder">
+                                {% for folder in foldersDistinct %}
+                                    <option value="{{folder.folderName}}">{{folder.folderName}}</option>
+                                {% endfor %}
+                                <option value="" selected="selected" disabled hidden>폴더 선택</option>
+                            </select>
+
+                            <input type="text" id="new-folder" placeholder="새 폴더">
+                            <button class="add-folder-btn"> + 폴더 추가</button>                        
+
+                        </div>
+                    </div>
+
+                    <div class="todo-add-section">
+                        <button class="btn" id="add" type="submit">할 일 추가</button>
+                    </div>
+                    
+                    
+                </div>
+
+            </form>
+        </div>
+
+
+
+        <form id="check" action="/check" method="post">
+            <div class="todos">
+                {% set folder = [] %}
+                {% for todo in todos %}    
+                    <div class="todo-folder">
+                        {% if todo.folderName not in folder %}
+                            <br>
+                            <p id="folder-name">{{todo.folderName}} </p>
+                            {% set folder = (folder.push(todo.folderName), folder) %}
+                        {% endif %}
+        
+                        <!-- 체크박스 클릭하면 체크/체크해제하고
+                        체크박스 상태 바뀌면 form 제출 (/check 라우터 소환) -->
+                        {%  if todo.done %}
+                            
+                            <div class="todo-content" style="color:grey; text-decoration: line-through;">
+                                <input type="checkbox" value="{{todo.content}}" 
+                                onchange="DidIt(this);document.getElementById('check').submit()" 
+                                autocomplete="off" checked                        
+                                <span name="todo">{{todo.content}}</span>
+                            </div>
+        
+                        {% else %}
+                        
+                            <div class="todo-content" style="color:black">
+                                <input type="checkbox" value="{{todo.content}}" 
+                                onchange="DidIt(this);document.getElementById('check').submit()" 
+                                autocomplete="off" 
+                                <span name="todo">{{todo.content}}</span>
+                            </div>
+        
+                        {% endif %}
+        
+                    </div>
+                {% endfor %}    
+            </div>
+        </form>
+
+
+
+    </div>
+</div>
+
+
+<script>
+    const addFolderBtn = document.querySelector(".add-folder-btn");
+    const folders = document.querySelector("#folder");
+    const newFolder = document.querySelector("#new-folder");
+    
+    addFolderBtn.onclick = (e) => {
+        e.preventDefault();
+        
+        // new Option(text, value, defaultSelected, selected)
+        const option = new Option(newFolder.value, newFolder.value,false, true);
+        folders.add(option, undefined);
+
+        newFolder.value = '';
+
+    }
+
+
+
+    function DidIt(t){
+            parent = t.parentNode;
+            parent.style.color = (t.checked) ? "grey" : "black";
+            parent.style.textDecoration = (t.checked) ? "line-through" :"none";
+
+            }
+
+</script>
+
+
+
+</body>
+
+</html>
