@@ -67,11 +67,23 @@
                 {% for todo in todos %}    
                     <div class="todo-folder">
                         {% if todo.folderName not in folder %}
-                            <br>
-                            <p id="folder-name">{{todo.folderName}} </p>
+                            <p class="folder-name" >{{todo.folderName}} </p>
                             {% set folder = (folder.push(todo.folderName), folder) %}
-                        {% endif %}
-        
+
+                        <div class="select">
+                            <div class="see-more">
+                                <br>
+                                <span>⋮</span>
+                            </div>
+                            <div class="options-list">
+                                <button class="options-item" type="submit">수정</button>
+                                <button class="options-item" type="submit" formaction="/todo/deleteFolder" name="deleteTargetFolder" value="{{todo.folderName}}">삭제</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+
+                    <div class="todo-list">
                         <!-- 체크박스 클릭하면 체크/체크해제하고
                         체크박스 상태 바뀌면 form 제출 (/check 라우터 소환) -->
                         {%  if todo.done %}
@@ -107,7 +119,7 @@
                             </div>
                             <div class="options-list">
                                 <button class="options-item" type="submit">수정</button>
-                                <button class="options-item" type="submit" formaction="/todo/delete" name="deleteTarget" value="{{todo.content}}">삭제</button>
+                                <button class="options-item" type="submit" formaction="/todo/deleteList" name="deleteTargetList" value="{{todo.content}}">삭제</button>
                             </div>
                         </div>                        
         

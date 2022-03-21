@@ -47,12 +47,29 @@ router.post('/checkEdit', async (req, res, next) => {
 
 });
 
-// /todo/delete
-router.post('/delete', (req, res, next)=>{
+// /todo/deleteList
+router.post('/deleteList', (req, res, next)=>{
     
+    console.log("=================");
+    console.log(req.body);
+    console.log(req.body.deleteTargetList);
+
     Todo.destroy({
-        where: {content: req.body.deleteTarget}
-    })
+        where: {content: req.body.deleteTargetList}
+    });
+    res.redirect('/');
+});
+
+// /todo/deleteFolder
+router.post('/deleteFolder', (req, res, next)=>{
+    
+    console.log("=================");
+    console.log(req.body);
+    console.log(req.body.deleteTargetFolder);
+
+    Todo.destroy({
+        where: {folderName: req.body.deleteTargetFolder}
+    });
     res.redirect('/');
 });
 
