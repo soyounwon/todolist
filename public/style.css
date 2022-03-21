@@ -24,9 +24,7 @@
 
 }
 
-.todo-list{
-    background: white;
-}
+
 
 .form-group-1 input{
     width: 100%;
@@ -51,9 +49,6 @@
     justify-content: space-between;
 }
 
-/* .folder-select-section{
-    display: inline-block;
-} */
 
 .form-group-2 .btn{
     border: 1px solid green;
@@ -107,23 +102,51 @@
 
 
 
-.todo-folder p{
+.folder-name{
     font-family: Arial, Helvetica, sans-serif;
     color: white;
     border: 1px solid green;
     border-radius: 4px;
     background-color: green;
-    width: fit-content;
     padding: 2px;
-
+    width: fit-content;
 }
 
-.todo-content p{
+.todo-folder{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.todo-content{
     font-family: Arial, Helvetica, sans-serif;
-    color: red;
-    
+    border-bottom: 1px;
+    border-top: 1px;
 }
 
+
+
+.todo-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+.options-list button{
+    display: block;
+    border: none;
+    background-color: white;
+}
+
+.options-list button:hover{
+    background-color: green;
+    color: white;
+}
 
 .select:hover .options-list {
     opacity: 1;
@@ -131,18 +154,12 @@
 }
 
 .select:hover .option span::after {
-    content: "▲";
     float: center;
 }
 
-.see-more{
-    border: 1px solid green;
-    border-radius: 4%;
-    width: fit-content;
-}
+
 
 .see-more span::after {
-    content: "▼";
     float: center;
 }
 
