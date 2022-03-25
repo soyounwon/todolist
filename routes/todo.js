@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs');
 
 const { Todo } = require('../models');
 const {isLoggedIn} = require('./middlewares');

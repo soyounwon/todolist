@@ -3,8 +3,6 @@ const { serializeUser } = require('passport');
 const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const {Todo, User} = require('../models');
 const { sequelize } = require('../models/user');
-// const { sequelize } = require('../models/user');
-// const { Sequelize } = require('sequelize/types');
 
 const router = express.Router();
 
