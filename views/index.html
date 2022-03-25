@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get id Done</title>
-    <link rel="stylesheet" href="/style.css"
+    <link rel="stylesheet" href="/style.css">
+
 </head>
 <body>
 
@@ -60,80 +61,91 @@
         </div>
 
 
-
-        <form id="check" action="/todo/checkEdit" method="post">
+        {% set idx = -1 %}
+        {% for folder in foldersDistinct %}
+        {% set idx = idx + 1 %}
+        <form id="check{{idx}}" action="/todo/checkEdit" method="post">
             <div class="todos">
-                {% set folder = [] %}
-                {% for todo in todos %}    
                     <div class="todo-folder">
-                        {% if todo.folderName not in folder %}
-                            <p class="folder-name" >{{todo.folderName}} </p>
-                            {% set folder = (folder.push(todo.folderName), folder) %}
+                        <div class="header">
+                            <p class="folder-name">{{folder.folderName}}</p>
+                            <input type="hidden" name="idx" value="{{idx}}">
 
-                        <div class="select">
-                            <div class="see-more">
-                                <br>
-                                <span>⋮</span>
+                            <div class="select">
+                                <div class="see-more">
+                                    <br>
+                                    <span>⋮</span>
+                                </div>
+                                <div class="options-list" id="{{folder.folderName}}">
+                                    <button class="options-item" type="button" onclick="openEdit(this, idx)">수정</button>
+                                    <button class="options-item" type="submit" formaction="/todo/deleteFolder">삭제</button>
+                                </div>
+
+                                <div class="modal" id="modal{{idx}}">
+                                    <div class="modal-edit">
+                                        <input type="text" name="newFolderName">
+                                        <input type="hidden" name="folderName" value="{{folder.folderName}}">
+                                        <button class="options-item" type="submit" onclick="closeEdit(this, idx)" formaction="/todo/editFolder">수정</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="options-list">
-                                <button class="options-item" type="submit">수정</button>
-                                <button class="options-item" type="submit" formaction="/todo/deleteFolder" name="deleteTargetFolder" value="{{todo.folderName}}">삭제</button>
-                            </div>
+
                         </div>
-                    {% endif %}
-                    </div>
-
-                    <div class="todo-list">
-                        <!-- 체크박스 클릭하면 체크/체크해제하고
-                        체크박스 상태 바뀌면 form 제출 (/check 라우터 소환) -->
-                        {%  if todo.done %}
-                            
-                            <div class="todo-content" style="color:grey; text-decoration: line-through;">
-                                <input type="checkbox" value="{{todo.content}}" 
-                                onchange="DidIt(this);document.getElementById('check').submit()" 
-                                autocomplete="off" checked                        
-                                <span name="todo">{{todo.content}}</span>
-
-                            
-
-                            </div>
-
-        
-                        {% else %}
                         
-                            <div class="todo-content" style="color:black">
-                                <input type="checkbox" value="{{todo.content}}" 
-                                onchange="DidIt(this);document.getElementById('check').submit()" 
-                                autocomplete="off" 
-                                <span name="todo">{{todo.content}}</span>
 
 
+                        <div class="items">
+                            {% for todo in todos %}
+                            <div class="item">
+                                {% if todo.folderName == folder.folderName %}
+                                    {%  if todo.done %}
+                                    
+                                    <div class="item-content" style="color:grey; text-decoration: line-through;">
+                                        <input type="checkbox" value="{{todo.id}}" 
+                                        onchange="DidIt(this)" 
+                                        autocomplete="off" checked>                        
+                                        <span name="todoUndone">{{todo.content}}</span>
+                                        <input type="hidden" name="todoDone" value="{{todo.id}}">
+                                    </div>
+                                    {% else %}
+                                    <div class="item-content" style="color:black">
+                                        <input type="checkbox" value="{{todo.id}}" 
+                                        onchange="DidIt(this)" 
+                                        autocomplete="off" >
+                                        <span>{{todo.content}}</span>
+                                        <input type="hidden" name="todoDone" value="{{todo.id}}">
+                                    </div>
+                                    {% endif %}
+    
+                                    <div class="select">
+                                        <div class="see-more">
+                                            <span>...</span>
+                                        </div>
+                                        <div class="options-list" id="{{folder.folderName}}">
+                                            <button class="options-item" type="button">수정</button>
+                                            <button class="options-item" type="submit" formaction="/todo/deleteList" name="deleteTargetList" value="{{todo.id}}">삭제</button>
+                                        </div>
+                                    </div>
+                                    
+                                {% endif %}
+
+                                
                             </div>
-        
-                        {% endif %}
+                            {% endfor %}
+                        </div>
 
-
-                        <div class="select">
-                            <div class="see-more">
-                                <span>...</span>
-                            </div>
-                            <div class="options-list">
-                                <button class="options-item" type="submit">수정</button>
-                                <button class="options-item" type="submit" formaction="/todo/deleteList" name="deleteTargetList" value="{{todo.content}}">삭제</button>
-                            </div>
-                        </div>                        
-        
+                        
                     </div>
-                {% endfor %}    
             </div>
         </form>
+        {% endfor %}
 
 
 
     </div>
 </div>
 
-
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     const addFolderBtn = document.querySelector(".add-folder-btn");
     const folders = document.querySelector("#folder");
@@ -156,8 +168,19 @@
             parent = t.parentNode;
             parent.style.color = (t.checked) ? "grey" : "black";
             parent.style.textDecoration = (t.checked) ? "line-through" :"none";
+            
+            todoId = t.value;
+            axios.patch(`/todo/checkEdit/${todoId}`);
+    }
 
-            }
+    function openEdit(t, idx){
+        document.getElementById("modal"+idx.value).style.display = "block";
+    }
+
+    function closeEdit(t, idx){
+        document.getElementById("modal"+idx.value).style.display = "none";
+    }
+    
 
 </script>
 

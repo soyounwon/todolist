@@ -34,7 +34,7 @@ router.get('/', async (req, res, next) => {
         });
         
         var foldersDistinct = await sequelize.query(
-            'SELECT DISTINCT folderName FROM todos WHERE UserId = :userid ORDER BY folderName',
+            'SELECT DISTINCT folderName FROM todos WHERE UserId = :userid',
             {replacements: {userid : req.user.id}}
         );
         foldersDistinct = foldersDistinct[0];

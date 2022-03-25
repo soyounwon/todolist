@@ -29,33 +29,52 @@ router.post('/', isLoggedIn, upload.none(), (req, res, next) => {
 });
 
 // /todo/checkEdit
-router.post('/checkEdit', async (req, res, next) => {
+router.patch('/checkEdit/:todoId', async (req, res, next) => {
 
-    Todo.update({
-        done: true,
-    }, {
-        where: {content: req.body.todo},
+    var target = await Todo.findAll({
+        where: {
+            [Op.and] : [
+                {id: req.params.todoId}, 
+                {done: true}
+            ]
+        }
     });
 
-    Todo.update({
-        done: false,
-    }, {
-        where: {content: {[Op.not]: req.body.todo}},
-    });
-
+    // 클릭된 값이 done=false면 true로 바꾸고 true면 false로 바꿈
+    if (target.length == 0){
+        Todo.update({
+            done: true,
+        }, {
+            where: {
+                [Op.and] : [
+                    {id: req.params.todoId}, 
+                    {done: false}
+                ]
+            }
+        });
+    }
+    else{
+        Todo.update({
+            done: false,
+        }, {
+            where: {
+                [Op.and] : [
+                    {id: req.params.todoId}, 
+                    {done: true}
+                ]
+            }
+        });
+    }
     res.redirect('/');
 
 });
 
 // /todo/deleteList
 router.post('/deleteList', (req, res, next)=>{
-    
-    console.log("=================");
+    console.log("deleteList=====================")
     console.log(req.body);
-    console.log(req.body.deleteTargetList);
-
     Todo.destroy({
-        where: {content: req.body.deleteTargetList}
+        where: {id: req.body.deleteTargetList}
     });
     res.redirect('/');
 });
@@ -63,15 +82,26 @@ router.post('/deleteList', (req, res, next)=>{
 // /todo/deleteFolder
 router.post('/deleteFolder', (req, res, next)=>{
     
-    console.log("=================");
+    console.log("deleteFolder====================");
     console.log(req.body);
-    console.log(req.body.deleteTargetFolder);
-
+    
     Todo.destroy({
-        where: {folderName: req.body.deleteTargetFolder}
+        where: {folderName: req.body.folderName}
     });
     res.redirect('/');
 });
 
+router.post('/editFolder', (req, res, next)=>{
+    console.log("editFolder============");
+    console.log(req.body);
+
+    Todo.update({
+        folderName: req.body.newFolderName,
+    }, {
+        where: {folderName: req.body.folderName}
+    });
+    res.redirect('/');
+
+});
 
 module.exports = router;
