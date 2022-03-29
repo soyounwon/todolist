@@ -68,7 +68,7 @@ router.patch('/checkEdit/:todoId', async (req, res, next) => {
 });
 
 
-router.patch('/editList/:todoId/:newContent', async (req, res, next) => {
+router.patch('/editList/:todoId/:newContent', (req, res, next) => {
     console.log("editList======================");
 
     Todo.update({
@@ -76,6 +76,8 @@ router.patch('/editList/:todoId/:newContent', async (req, res, next) => {
     }, {
         where: {id: req.params.todoId}
     });
+
+    res.send('success');
 });
 
 // /todo/deleteList

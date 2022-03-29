@@ -11,10 +11,13 @@
 <body>
 
 <div class="navigator">
-    <a class="btn" id="login" href="login">로그인</a>
-    <a class="btn" id="join" href="join">회원가입</a>
-    <a class="btn" id="logout" href="/auth/logout">로그아웃</a>
-    <a class="btn" id="profile" href="profile">내 프로필</a>
+    {% if isLoggedIn %}
+        <a class="btn" id="logout" href="/auth/logout">로그아웃</a>
+        <a class="btn" id="profile" href="profile">내 프로필</a>
+    {% else %}
+        <a class="btn" id="login" href="login">로그인</a>
+        <a class="btn" id="join" href="join">회원가입</a>
+    {% endif %}
 
 </div>
 
@@ -196,10 +199,12 @@
     function editList(t){
         todoId = t.value;
         newContent = document.getElementById("newContent" + todoId).value;
-        axios.patch(`/todo/editList/${todoId}/${newContent}`);
-
         t.parentNode.parentNode.style.display = "none";
-        window.location.reload();
+
+        axios.patch(`/todo/editList/${todoId}/${newContent}`)
+            .then(() => {
+                window.location.reload();            
+            });
     }
 </script>
 
