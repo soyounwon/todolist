@@ -120,10 +120,18 @@
                                         <div class="see-more">
                                             <span>...</span>
                                         </div>
-                                        <div class="options-list" id="{{folder.folderName}}">
-                                            <button class="options-item" type="button">수정</button>
+                                        <div class="options-list">
+                                            <button class="options-item" type="button" onclick="openListEdit(this)" value="{{todo.id}}">수정</button>
                                             <button class="options-item" type="submit" formaction="/todo/deleteList" name="deleteTargetList" value="{{todo.id}}">삭제</button>
                                         </div>
+
+                                        <div class="list-modal">
+                                            <div class="modal-edit">
+                                                <input type="text" id="newContent{{todo.id}}" placeholder="{{todo.content}}" autocomplete="off">
+                                                <button class="options-item" type="button" onclick="editList(this)" value="{{todo.id}}">수정</button>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     
                                 {% endif %}
@@ -179,8 +187,20 @@
     function closeEdit(t, idx){
         document.getElementById("modal"+idx.value).style.display = "none";
     }
-    
 
+    function openListEdit(t){
+        modal = t.parentNode.parentNode.lastElementChild;
+        modal.style.display = "block";
+    }
+    
+    function editList(t){
+        todoId = t.value;
+        newContent = document.getElementById("newContent" + todoId).value;
+        axios.patch(`/todo/editList/${todoId}/${newContent}`);
+
+        t.parentNode.parentNode.style.display = "none";
+        window.location.reload();
+    }
 </script>
 
 

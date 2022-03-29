@@ -64,8 +64,18 @@ router.patch('/checkEdit/:todoId', async (req, res, next) => {
             }
         });
     }
-    res.redirect('/');
 
+});
+
+
+router.patch('/editList/:todoId/:newContent', async (req, res, next) => {
+    console.log("editList======================");
+
+    Todo.update({
+        content: req.params.newContent,
+    }, {
+        where: {id: req.params.todoId}
+    });
 });
 
 // /todo/deleteList
