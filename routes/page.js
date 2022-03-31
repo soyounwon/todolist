@@ -44,6 +44,8 @@ router.get('/', async (req, res, next) => {
         res.render('index.html', {
             todos: todos,
             foldersDistinct: foldersDistinct,
+            isLoggedIn: isLoggedIn,
+            isNotLoggedIn: isNotLoggedIn
         });
     }
     
